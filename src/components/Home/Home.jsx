@@ -21,6 +21,9 @@ export default function Home() {
     createdAt: new Date().toISOString(),
   });
 
+  // State for search input
+  const [searchQuery, setSearchQuery] = useState("");
+
   // Sort criteria states
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState("desc");
@@ -88,8 +91,13 @@ export default function Home() {
     });
   };
 
+  // Filtering tasks based on search query
+  const filteredTasks = todo.filter((task) =>
+    task.task.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   // Sorting tasks based on selected criteria
-  const sortedTasks = [...todo].sort((a, b) => {
+  const sortedTasks = [...filteredTasks].sort((a, b) => {
     if (sortBy === "createdAt") {
       const dateA = new Date(a.createdAt);
       const dateB = new Date(b.createdAt);
@@ -137,7 +145,7 @@ export default function Home() {
                       value={newTodo.task}
                       onChange={updateTodoValue}
                       autoComplete="given-name"
-                      className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-300 sm:text-sm/6"
+                      className="mt-2 p-2 border rounded-md w-full"
                     />
                   </div>
                 </div>
@@ -158,15 +166,15 @@ export default function Home() {
                       onChange={updateTodoValue}
                       placeholder="low/medium/high"
                       autoComplete="postal-code"
-                      className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-200 sm:text-sm/6"
+                      className="mt-2 p-2 border rounded-md w-full"
                     />
                   </div>
                 </div>
 
-                <div className="sm:clo-span-2">
+                <div className="sm:col-span-2">
                   <button
                     type="submit"
-                    className="mt-8 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="mt-10 rounded-md bg-indigo-500 px-3 py-2 text-md font-semibold text-white shadow-sm  hover:shadow-lg hover:shadow-indigo-500/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     Save
                   </button>
@@ -175,6 +183,20 @@ export default function Home() {
             </div>
           </div>
         </form>
+      </div>
+
+      {/* Search Bar */}
+      <div className="mt-5">
+        <label className="block text-sm font-medium text-gray-900">
+          Search Tasks
+        </label>
+        <input
+          type="text"
+          className="mt-2 p-2 border rounded-md w-full"
+          placeholder="Search by task name"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
       </div>
 
       {/* Sorting Section */}
@@ -245,14 +267,14 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => markAsDone(task.id)}
-                className="mr-5 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500"
+                className="mr-5 rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:shadow-lg hover:shadow-green-500/50"
               >
                 {!task.isDone ? "Mark as Done" : "Mark as Undone"}
               </button>
               <button
                 type="button"
                 onClick={() => deleteTodo(task.id)}
-                className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500"
+                className="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:shadow-lg hover:shadow-red-500/50"
               >
                 Delete
               </button>
