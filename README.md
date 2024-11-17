@@ -7,16 +7,18 @@
 **Basic Features**
 <br>
 Basic Features
-1.Task Input: Add tasks with a title
-2.Task Deletion: Delete tasks
-3.Task Persistence: Persist tasks in local storage
+
+- Task Input: Add tasks with a title
+- Task Deletion: Delete tasks
+- Task Persistence: Persist tasks in local storage
 
 **Advance Features**
-1.Task Search: Use a search bar to find tasks
-2.Task Completion: Mark tasks as completed (mark as done/undone)
-3.Priority Setting: Assign a priority level to tasks
-4.Task Sorting: Sort tasks by various criteria
-5.UI Animation: Improved user interface with animations
+
+- Task Search: Use a search bar to find tasks
+- Task Completion: Mark tasks as completed (mark as done/undone)
+- Priority Setting: Assign a priority level to tasks
+- Task Sorting: Sort tasks by various criteria
+- UI Animation: Improved user interface with animations
 
 ## setup and launch process:
 
