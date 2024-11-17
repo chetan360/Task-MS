@@ -18,6 +18,17 @@
 - Task Sorting: Sort tasks by various criteria
 - UI Animation: Improved user interface with animations
 
+**Assumptions Made During Development**
+
+- Local Storage
+  The app uses localStorage to save tasks. This means tasks will stay even after reloading, but they'll be lost if the user clears their browser data.
+
+- Single User:
+  The app is designed for one user. It doesn’t support multi-user accounts or syncing across devices.
+
+- Simple UI:
+  The design is basic and focused on functionality. It doesn’t include advanced features like drag-and-drop or complex animations.
+
 ## setup and launch process:
 
 - Clone the repository by
