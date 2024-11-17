@@ -5,8 +5,6 @@
 ## Application and functionality
 
 **Basic Features**
-<br>
-Basic Features
 
 - Task Input: Add tasks with a title
 - Task Deletion: Delete tasks
