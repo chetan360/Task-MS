@@ -57,37 +57,39 @@ http://localhost:5173/
 
 ## Screenshots 🖼️
 
-### 01. Home Page
+### 01. Add a task
 
-![Screenshot 1](project-images/Screenshot%202024-11-16%20191851.png)
+![Screenshot 1](<project-images/Screenshot%20(79).png>)
 
-### 02. Add a Task
+### 01. Add a mark as done
 
-![Screenshot 2](<project-images/Screenshot%20(72).png>)
+![Screenshot 2](<project-images/Screenshot (84).png>)
 
 ### 03. Search Tasks
 
-![Screenshot 3](<project-images/Screenshot%20(73).png>)
+![Screenshot 3](<project-images/Screenshot (88).png>)
 
-![Screenshot 4](<project-images/Screenshot%20(74).png>)
+![Screenshot 4](<project-images/Screenshot (89).png>)
 
-### 04. Sort by Section (Date/Priority by Ascending and Descending)
+### 04. Delete a task.
 
-![Screenshot 5](<project-images/Screenshot (75).png>)
+![Screenshot 5](<project-images/Screenshot (80).png>)
 
-![Screenshot 6](<project-images/Screenshot (76).png>)
+### 05. Sort by Section (Date/Priority by Ascending and Descending)
 
-![Screenshot 7](<project-images/Screenshot (77).png>)
+![Screenshot 6](<project-images/Screenshot (85).png>)
 
-![Screenshot 8](<project-images/Screenshot (78).png>)
+![Screenshot 7](<project-images/Screenshot (86).png>)
 
-### 05. About
+![Screenshot 8](<project-images/Screenshot (87).png>)
 
-![Screenshot 5](project-images/Screenshot%202024-11-16%20191927.png)
+### 06. About
 
-### 06. Contact
+![Screenshot 9](project-images/Screenshot%202024-11-16%20191927.png)
 
-![Screenshot 6](<project-images/Screenshot 2024-11-16 192017.png>)
+### 07. Contact
+
+![Screenshot 10](<project-images/Screenshot 2024-11-16 192017.png>)
 
 ## MIT LICENSE 📔
 
