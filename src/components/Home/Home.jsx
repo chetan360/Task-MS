@@ -19,6 +19,7 @@ export default function Home() {
     id: uuidv4(),
     isDone: false,
     createdAt: new Date().toISOString(),
+    isFading: false,
   });
 
   // State for search input
@@ -84,11 +85,22 @@ export default function Home() {
 
   // Delete task
   const deleteTodo = (id) => {
-    setTodo((prevTodo) => {
-      const updatedTodos = prevTodo.filter((task) => task.id !== id);
-      localStorage.setItem("todos", JSON.stringify(updatedTodos)); // Save updated tasks to localStorage
-      return updatedTodos;
+    setTodo((prevTodos) => {
+      return prevTodos.map((task) => {
+        if (task.id === id) {
+          return { ...task, isFading: true }; // Set fading state
+        }
+        return task;
+      });
     });
+
+    setTimeout(() => {
+      setTodo((prevTodo) => {
+        const updatedTodos = prevTodo.filter((task) => task.id !== id);
+        localStorage.setItem("todos", JSON.stringify(updatedTodos)); // Save updated tasks to localStorage
+        return updatedTodos;
+      });
+    }, 500);
   };
 
   // Filtering tasks based on search query
@@ -142,6 +154,7 @@ export default function Home() {
                       type="text"
                       name="task"
                       id="add-todo"
+                      placeholder="e.g. Wake up"
                       value={newTodo.task}
                       onChange={updateTodoValue}
                       autoComplete="given-name"
@@ -150,7 +163,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="sm:col-span-2">
+                <div className="sm:col-span-2 m-2">
                   <label
                     htmlFor="priority"
                     className="block text-sm/6 font-medium text-gray-900"
@@ -158,16 +171,17 @@ export default function Home() {
                     Assign Priority
                   </label>
                   <div className="mt-2">
-                    <input
-                      type="text"
-                      name="priority"
+                    <select
                       id="priority"
+                      name="priority"
+                      className="p-2 border rounded-md"
                       value={newTodo.priority}
                       onChange={updateTodoValue}
-                      placeholder="low/medium/high"
-                      autoComplete="postal-code"
-                      className="mt-2 p-2 border rounded-md w-full"
-                    />
+                    >
+                      <option value="Low">Low</option>
+                      <option value="Medium">Medium</option>
+                      <option value="High">High</option>
+                    </select>
                   </div>
                 </div>
 
@@ -185,56 +199,57 @@ export default function Home() {
         </form>
       </div>
 
-      {/* Search Bar */}
-      <div className="mt-5">
-        <label className="block text-sm font-medium text-gray-900">
-          Search Tasks
-        </label>
-        <input
-          type="text"
-          className="mt-2 p-2 border rounded-md w-full"
-          placeholder="Search by task name"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </div>
-
       {/* Sorting Section */}
-      <div className="mt-5">
-        <label className="block text-sm font-medium text-gray-900">
-          Sort Tasks
-        </label>
+      <div className="flex justify-between">
+        <div className="mt-5">
+          <label className="block text-sm font-medium text-gray-900">
+            Sort Tasks
+          </label>
 
-        <div className="flex gap-x-6 mt-3">
-          <div>
-            <label htmlFor="sortByPriority" className="mr-2">
-              Sort by
-            </label>
-            <select
-              id="sortByPriority"
-              className="p-2 border rounded-md"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-            >
-              <option value="createdAt">By Date</option>
-              <option value="priority">By Priority</option>
-            </select>
-          </div>
+          <div className="flex gap-x-6 mt-3">
+            <div>
+              <label htmlFor="sortByPriority" className="mr-2">
+                Sort by
+              </label>
+              <select
+                id="sortByPriority"
+                className="p-2 border rounded-md"
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                <option value="createdAt">By Date</option>
+                <option value="priority">By Priority</option>
+              </select>
+            </div>
 
-          <div>
-            <label htmlFor="sortOrder" className="mr-2">
-              Sort Order
-            </label>
-            <select
-              id="sortOrder"
-              className="p-2 border rounded-md"
-              value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value)}
-            >
-              <option value="asc">Ascending</option>
-              <option value="desc">Descending</option>
-            </select>
+            <div>
+              <label htmlFor="sortOrder" className="mr-2">
+                Sort Order
+              </label>
+              <select
+                id="sortOrder"
+                className="p-2 border rounded-md"
+                value={sortOrder}
+                onChange={(e) => setSortOrder(e.target.value)}
+              >
+                <option value="asc">Ascending</option>
+                <option value="desc">Descending</option>
+              </select>
+            </div>
           </div>
+        </div>
+        {/* Search Section */}
+        <div>
+          <label className="block text-sm font-medium text-gray-900">
+            Search Tasks
+          </label>
+          <input
+            type="text"
+            className="mt-2 p-2 border rounded-md w-64"
+            placeholder="Search by task name"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
       </div>
 
@@ -243,7 +258,9 @@ export default function Home() {
         {sortedTasks.map((task) => (
           <li
             key={task.id}
-            className="p-5 mt-5 mb-5 rounded-lg shadow-lg flex justify-between gap-x-6 py-5"
+            className={`p-5 mt-5 mb-5 rounded-lg shadow-lg flex justify-between gap-x-6 py-5 transition-opacity duration-1000 ${
+              task.isFading ? "opacity-0" : "opacity-100"
+            }`}
           >
             <div className="flex min-w-0 gap-x-4">
               <div className="min-w-0 flex-auto">
@@ -267,16 +284,35 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => markAsDone(task.id)}
-                className="mr-5 rounded-md bg-green-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:shadow-lg hover:shadow-green-500/50"
+                className="mb-8 h-1.5 mr-5 hover:text-green-500 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
               >
-                {!task.isDone ? "Mark as Done" : "Mark as Undone"}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  class="bi bi-check-square-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z" />
+                </svg>
               </button>
               <button
                 type="button"
                 onClick={() => deleteTodo(task.id)}
-                className="rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:shadow-lg hover:shadow-red-500/50"
+                className="mb-8 h-1.5 hover:text-red-500 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300"
               >
-                Delete
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="currentColor"
+                  className="bi bi-trash"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                </svg>
               </button>
             </div>
           </li>
