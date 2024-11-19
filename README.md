@@ -61,7 +61,7 @@ http://localhost:5173/
 
 ![Screenshot 1](<project-images/Screenshot%20(79).png>)
 
-### 01. Add a mark as done
+### 02. Add a mark as done
 
 ![Screenshot 2](<project-images/Screenshot (84).png>)
 
